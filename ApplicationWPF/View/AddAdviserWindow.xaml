@@ -1,0 +1,65 @@
+﻿<Window x:Class="ApplicationWPF.View.AddAdviserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:ApplicationWPF.ViewModel"
+        mc:Ignorable="d"
+        Title="Add Adviser"
+        Height="450" Width="800"
+        Name="addadviserwindow"
+        WindowStartupLocation="CenterScreen"
+        Background="White">
+
+   
+
+    <Border Padding="40" BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="40">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="410" Height="355" >
+
+            <!-- Header -->
+            <TextBlock Text="Add New Adviser"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,30,0,20"/>
+
+            <!-- First Name -->
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="First Name" FontSize="16" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35" FontSize="16"/>
+            </StackPanel>
+
+            <!-- Last Name -->
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Last Name" FontSize="16" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35" FontSize="16"/>
+            </StackPanel>
+
+            <!-- Phone Number -->
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Phone Number" FontSize="16" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                         Height="35" FontSize="16"/>
+            </StackPanel>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,0"
+                        >
+                <Button Content="Save"
+                        Width="140" Height="40"
+                        FontSize="16"
+                        CommandParameter="{x:Reference Name=addadviserwindow}"
+                        Command="{Binding SaveCommand}"/>
+
+                <Button Content="Cancel"
+                        Width="140" Height="40"
+                        FontSize="16"
+                        Command="{Binding CancelCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

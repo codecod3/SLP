@@ -1,0 +1,87 @@
+﻿<Window x:Class="ApplicationWPF.View.AdviserListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Brgy. Vicente Hizon Sr. Elementary School Database"
+        Height="700" Width="770"
+        Name="ListAdviserWindow"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFFDFDFD">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Table -->
+            <RowDefinition Height="Auto"/>
+            <!-- Buttons + Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- ===== HEADER ===== -->
+        <TextBlock Text="Adviser List"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,20"/>
+
+        <!-- ===== ADVISER LIST ===== -->
+        <Border Grid.Row="1"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,10">
+            <ListView x:Name="AdviserListView"
+                      ItemsSource="{Binding ClassAdvisers}"
+                      SelectedItem="{Binding SelectedAdviser, Mode=TwoWay}"
+                      BorderThickness="0"
+                      AlternationCount="2"
+                      MouseDoubleClick="AdviserListView_MouseDoubleClick"
+                      HorizontalContentAlignment="Stretch">
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" Width="200"/>
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="200"/>
+                        <GridViewColumn Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}" Width="200"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- ===== BUTTONS ===== -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,0">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Add Adviser"
+                        Width="120" Height="40"
+                        Command="{Binding AddAdviserCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Background="#FFCCE5FF"
+                        FontWeight="SemiBold"
+                        Margin="5,0"/>
+                <Button Content="Edit Adviser"
+                        Width="120" Height="40"
+                        Command="{Binding DoubleClickCommand}"
+                        Background="#FFE5FFCC"
+                        FontWeight="SemiBold"
+                        Margin="5,0"/>
+                <Button Content="Remove Adviser"
+                        Width="120" Height="40"
+                        Command="{Binding DeleteAdviserCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Background="#FFFFCCCC"
+                        FontWeight="SemiBold"
+                        Margin="5,0"/>
+            </StackPanel>
+
+           
+        </StackPanel>
+    </Grid>
+</Window>

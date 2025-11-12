@@ -1,0 +1,90 @@
+﻿<Window x:Class="ApplicationWPF.View.HomePageView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Home Page"
+        Height="500" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="White">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Tabs area -->
+            <RowDefinition Height="*"/>
+            <!-- Content area -->
+        </Grid.RowDefinitions>
+
+        <!-- ======= TAB NAVIGATION BAR ======= -->
+        <DockPanel Grid.Row="0" LastChildFill="True" Background="#F2F2F2" >
+            <UniformGrid Rows="1" Columns="3">
+                <Button Content="STUDENT LIST"
+                        Command="{Binding OpenStudentListCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderBrush="#CCCCCC"
+                        BorderThickness="0,0,1,0"
+                        Cursor="Hand"/>
+
+                <Button Content="PARENT LIST"
+                        Command="{Binding OpenParentListCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderBrush="#CCCCCC"
+                        BorderThickness="0,0,1,0"
+                        Cursor="Hand"/>
+
+                <Button Content="ADVISER LIST"
+                        Command="{Binding OpenAdviserListCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Cursor="Hand"/>
+            </UniformGrid>
+        </DockPanel>
+
+        <!-- ======= CONTENT / PICTURE PLACEHOLDER ======= -->
+        <Border Grid.Row="1"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                CornerRadius="10"
+                Background="#FAFAFA"
+                Margin="20">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Barangay Vicente Hizon Sr."
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#444"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <TextBlock Text="Select a tab above to view or manage records."
+                           FontSize="14"
+                           Foreground="#777"
+                           HorizontalAlignment="Center"/>
+
+                <Border Width="400" Height="200"
+                        Background="#EEE"
+                        CornerRadius="10"
+                        Margin="0,30,0,0"
+                        BorderBrush="#CCC"
+                        BorderThickness="1">
+                    <TextBlock Text="(Picture Placeholder)"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="#888"
+                               FontStyle="Italic"/>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
