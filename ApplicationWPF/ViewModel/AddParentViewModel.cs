@@ -163,6 +163,8 @@ namespace ApplicationWPF.ViewModel
                 // Close the current window
                 if (obj is Window currentWindow)
                     currentWindow.Close();
+
+
             }
             catch (Exception ex)
             {

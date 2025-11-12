@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationWPF.Commands;
 using SoftwareDesignQueenAnneCuriosityShopProject.Entities;
 using SoftwareDesignQueenAnneCuriosityShopProject;
+using ApplicationWPF.View;
 
 namespace ApplicationWPF.ViewModel
 {
@@ -20,11 +21,16 @@ namespace ApplicationWPF.ViewModel
 
         private string _parentNameInput;
         private string _adviserNameInput;
+        private RelationshipType _selectedRelationshipType; // flattened property
 
+        // Enum array for ComboBox
+        public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
+
+        // PROPERTIES
         public Student SelectedStudent
         {
             get => _selectedStudent;
-            set { _selectedStudent = value; OnPropertyChanged(nameof(SelectedStudent)); }
+            set { _selectedStudent = value; OnPropertyChanged(); }
         }
 
         public Parent SelectedParent
@@ -35,7 +41,7 @@ namespace ApplicationWPF.ViewModel
                 if (_selectedParent != value)
                 {
                     _selectedParent = value;
-                    OnPropertyChanged(nameof(SelectedParent));
+                    OnPropertyChanged();
                     if (_selectedParent != null)
                         ParentNameInput = $"{_selectedParent.FirstName} {_selectedParent.LastName}";
                 }
@@ -50,7 +56,7 @@ namespace ApplicationWPF.ViewModel
                 if (_selectedAdviser != value)
                 {
                     _selectedAdviser = value;
-                    OnPropertyChanged(nameof(SelectedAdviser));
+                    OnPropertyChanged();
                     if (_selectedAdviser != null)
                         AdviserNameInput = $"{_selectedAdviser.FirstName} {_selectedAdviser.LastName}";
                 }
@@ -60,13 +66,36 @@ namespace ApplicationWPF.ViewModel
         public Relationship SelectedRelationship
         {
             get => _selectedRelationship;
-            set { _selectedRelationship = value; OnPropertyChanged(nameof(SelectedRelationship)); }
+            set
+            {
+                if (_selectedRelationship != value)
+                {
+                    _selectedRelationship = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public RelationshipType SelectedRelationshipType
+        {
+            get => _selectedRelationshipType;
+            set
+            {
+                if (_selectedRelationshipType != value)
+                {
+                    _selectedRelationshipType = value;
+                    OnPropertyChanged();
+
+                    if (SelectedRelationship != null)
+                        SelectedRelationship.TypeOfRelationship = value;
+                }
+            }
         }
 
         public Advisory SelectedAdvisory
         {
             get => _selectedAdvisory;
-            set { _selectedAdvisory = value; OnPropertyChanged(nameof(SelectedAdvisory)); }
+            set { _selectedAdvisory = value; OnPropertyChanged(); }
         }
 
         public string ParentNameInput
@@ -77,7 +106,7 @@ namespace ApplicationWPF.ViewModel
                 if (_parentNameInput != value)
                 {
                     _parentNameInput = value;
-                    OnPropertyChanged(nameof(ParentNameInput));
+                    OnPropertyChanged();
                     UpdateFilteredParents();
                 }
             }
@@ -91,25 +120,28 @@ namespace ApplicationWPF.ViewModel
                 if (_adviserNameInput != value)
                 {
                     _adviserNameInput = value;
-                    OnPropertyChanged(nameof(AdviserNameInput));
+                    OnPropertyChanged();
                     UpdateFilteredAdvisers();
                 }
             }
         }
 
+        // COLLECTIONS
         public ObservableCollection<Parent> AllParents { get; } = new();
         public ObservableCollection<Parent> FilteredParents { get; } = new();
         public ObservableCollection<ClassAdviser> AllAdvisers { get; } = new();
         public ObservableCollection<ClassAdviser> FilteredAdvisers { get; } = new();
 
+        // COMMANDS
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-
         public event Action RequestClose;
 
+        // CONSTRUCTOR
         public EditStudentViewModel(Student student)
         {
             SelectedStudent = student ?? new Student();
+
             LoadParents();
             LoadAdvisers();
             LoadExistingLinks();
@@ -118,21 +150,20 @@ namespace ApplicationWPF.ViewModel
             CancelCommand = new RelayCommand(Cancel, _ => true);
         }
 
+        // LOAD DATA
         private void LoadParents()
         {
             using var context = new Context();
-            var parents = context.Parents.ToList();
             AllParents.Clear();
-            foreach (var p in parents)
+            foreach (var p in context.Parents.ToList())
                 AllParents.Add(p);
         }
 
         private void LoadAdvisers()
         {
             using var context = new Context();
-            var advisers = context.ClassAdvisers.ToList();
             AllAdvisers.Clear();
-            foreach (var a in advisers)
+            foreach (var a in context.ClassAdvisers.ToList())
                 AllAdvisers.Add(a);
         }
 
@@ -149,6 +180,12 @@ namespace ApplicationWPF.ViewModel
             {
                 SelectedRelationship = relationship;
                 SelectedParent = relationship.ParentLink;
+                SelectedRelationshipType = relationship.TypeOfRelationship; // flattened property for ComboBox
+            }
+            else
+            {
+                SelectedRelationship = new Relationship();
+                SelectedRelationshipType = RelationshipType.Other;
             }
 
             // --- ADVISORY ---
@@ -164,11 +201,11 @@ namespace ApplicationWPF.ViewModel
             }
         }
 
+        // FILTERING
         private void UpdateFilteredParents()
         {
             FilteredParents.Clear();
-            if (string.IsNullOrWhiteSpace(ParentNameInput))
-                return;
+            if (string.IsNullOrWhiteSpace(ParentNameInput)) return;
 
             var matches = AllParents.Where(p =>
                 (!string.IsNullOrEmpty(p.FirstName) && p.FirstName.Contains(ParentNameInput, StringComparison.OrdinalIgnoreCase)) ||
@@ -181,8 +218,7 @@ namespace ApplicationWPF.ViewModel
         private void UpdateFilteredAdvisers()
         {
             FilteredAdvisers.Clear();
-            if (string.IsNullOrWhiteSpace(AdviserNameInput))
-                return;
+            if (string.IsNullOrWhiteSpace(AdviserNameInput)) return;
 
             var matches = AllAdvisers.Where(a =>
                 (!string.IsNullOrEmpty(a.FirstName) && a.FirstName.Contains(AdviserNameInput, StringComparison.OrdinalIgnoreCase)) ||
@@ -192,10 +228,10 @@ namespace ApplicationWPF.ViewModel
                 FilteredAdvisers.Add(adviser);
         }
 
+        // SAVE
         private void SaveChanges(object obj)
         {
             using var context = new Context();
-
             var student = context.Students.FirstOrDefault(s => s.StudentID == SelectedStudent.StudentID);
             if (student == null) return;
 
@@ -205,13 +241,11 @@ namespace ApplicationWPF.ViewModel
             student.LRN = SelectedStudent.LRN;
             student.EnrollmentStatus = SelectedStudent.EnrollmentStatus;
 
-            // --- RELATIONSHIP (nullable-safe) ---
-            var existingRel = context.Relationships
-                .FirstOrDefault(r => r.StudentID == student.StudentID);
+            // --- RELATIONSHIP ---
+            var existingRel = context.Relationships.FirstOrDefault(r => r.StudentID == student.StudentID);
 
             if (SelectedParent == null)
             {
-                // If no parent selected, remove existing relationship (if any)
                 if (existingRel != null)
                     context.Relationships.Remove(existingRel);
             }
@@ -220,29 +254,26 @@ namespace ApplicationWPF.ViewModel
                 if (existingRel != null)
                 {
                     existingRel.ParentID = SelectedParent.ParentID;
-                    existingRel.TypeOfRelationship = SelectedRelationship?.TypeOfRelationship ?? RelationshipType.Other;
+                    existingRel.TypeOfRelationship = SelectedRelationshipType;
                 }
                 else
                 {
-                    var newRel = new Relationship
+                    context.Relationships.Add(new Relationship
                     {
                         StudentID = student.StudentID,
                         ParentID = SelectedParent.ParentID,
-                        TypeOfRelationship = SelectedRelationship?.TypeOfRelationship ?? RelationshipType.Other
-                    };
-                    context.Relationships.Add(newRel);
+                        TypeOfRelationship = SelectedRelationshipType
+                    });
                 }
             }
 
-            // --- ADVISORY (nullable-safe) ---
+            // --- ADVISORY ---
             if (SelectedAdviser == null)
             {
-                // No adviser selected — clear advisory link
                 student.AdvisoryID = null;
             }
             else
             {
-                // Extract values safely before the query (avoid null reference in LINQ)
                 string sectionName = SelectedAdvisory?.SectionName ?? string.Empty;
                 string schoolYear = SelectedAdvisory?.SchoolYear ?? DateTime.Now.Year.ToString();
 
@@ -250,7 +281,8 @@ namespace ApplicationWPF.ViewModel
                     .Include(a => a.ClassAdviserLink)
                     .FirstOrDefault(a =>
                         a.ClassAdviserID == SelectedAdviser.ClassAdviserID &&
-                        a.SectionName == sectionName);
+                        a.SectionName == sectionName &&
+                        a.SchoolYear == schoolYear);
 
                 if (advisory == null)
                 {
@@ -261,25 +293,29 @@ namespace ApplicationWPF.ViewModel
                         SchoolYear = schoolYear,
                         ClassAdviserID = SelectedAdviser.ClassAdviserID
                     };
-
                     context.Advisories.Add(advisory);
-                    context.SaveChanges(); // Save so the new advisory gets an ID
+                    context.SaveChanges();
                 }
 
                 student.AdvisoryID = advisory.AdvisoryID;
             }
 
-            // --- SAVE ---
             context.SaveChanges();
-
             MessageBox.Show("Student successfully updated!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            var x = new StudentListWindow();
+            x.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            x.Show();
             RequestClose?.Invoke();
         }
 
-
+        // CANCEL
         private void Cancel(object obj)
         {
+            var x = new StudentListWindow();
+            x.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            x.Show();
             RequestClose?.Invoke();
+
         }
     }
 }

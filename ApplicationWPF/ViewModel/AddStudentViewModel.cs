@@ -23,10 +23,36 @@ namespace ApplicationWPF.ViewModel
         private Parent _selectedParent;
         private ClassAdviser _selectedAdviser;
         public event Action RequestClose;
+        public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
+        public Relationship SelectedRelationship { get; set; } = new Relationship();
+
         public ICommand AddStudentCommand { get; set; }
+        private string _sectionName;
 
         private string _parentNameInput;
         private string _adviserNameInput;
+        private string _schoolYear;
+
+        public string SchoolYear
+        {
+            get=>_schoolYear;
+            set
+            {
+                _schoolYear = value;
+                OnPropertyChanged(nameof(SchoolYear));
+            }
+        }
+
+
+        public string SectionName
+        {
+            get=>_sectionName;
+            set
+            {
+                _sectionName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string FirstName
         {
@@ -138,6 +164,8 @@ namespace ApplicationWPF.ViewModel
         private void AddStudent(object obj)
         {
             using var context = new Context();
+
+            // Create new student
             var newStudent = new Student
             {
                 FirstName = FirstName,
@@ -146,50 +174,80 @@ namespace ApplicationWPF.ViewModel
                 PhoneNumber = PhoneNumber,
                 EnrollmentStatus = true
             };
-           
 
-            if(SelectedParent != null)
+            // 🔹 Link Parent if selected
+            if (SelectedParent != null)
             {
+                // Attach parent to context if not already tracked
+                if (!context.Parents.Local.Any(p => p.ParentID == SelectedParent.ParentID))
+                    context.Parents.Attach(SelectedParent);
 
                 var relation = new Relationship
                 {
                     StudentLink = newStudent,
                     ParentLink = SelectedParent,
-                    StudentID = newStudent.StudentID,
-                    ParentID = SelectedParent.ParentID
-
+                    TypeOfRelationship = SelectedRelationship.TypeOfRelationship
                 };
                 context.Relationships.Add(relation);
-
             }
-           
-            if(SelectedAdviser != null)
+
+            // 🔹 Link Adviser and Advisory if selected
+            if (SelectedAdviser != null)
             {
-                var advisory = new Advisory
+                // Attach adviser to context if not already tracked
+                if (!context.ClassAdvisers.Local.Any(a => a.ClassAdviserID == SelectedAdviser.ClassAdviserID))
+                    context.ClassAdvisers.Attach(SelectedAdviser);
+
+                // Try to find an existing advisory with same adviser and section
+                var existingAdvisory = context.Advisories
+                    .Include(a => a.Students)
+                    .FirstOrDefault(a =>
+                        a.ClassAdviserID == SelectedAdviser.ClassAdviserID &&
+                        a.SectionName == SectionName && a.SchoolYear == SchoolYear);
+
+                if (existingAdvisory != null)
                 {
-                    ClassAdviserLink = SelectedAdviser,
-                    ClassAdviserID = SelectedAdviser.ClassAdviserID
-                };
-                advisory.Students.Add(newStudent);
-                context.Advisories.Add(advisory);
-                newStudent.AdvisoryLink = advisory;
-                newStudent.AdvisoryID = advisory.AdvisoryID;
+                    // Advisory exists -> just add the student
+                    existingAdvisory.Students.Add(newStudent);
+                    newStudent.AdvisoryLink = existingAdvisory;
+                }
+                else
+                {
+                    // Create a new advisory
+                    var newAdvisory = new Advisory
+                    {
+                        Name = $"{SectionName} - {SchoolYear}",
+                        SectionName = SectionName,
+                        SchoolYear = SchoolYear,
+                        ClassAdviserLink = SelectedAdviser, // attached entity
+                        Students = new List<Student> { newStudent }
+                    };
 
-
+                    context.Advisories.Add(newAdvisory);
+                    newStudent.AdvisoryLink = newAdvisory;
+                }
             }
 
-           
-
+            // 🔹 Add student
             context.Students.Add(newStudent);
-            
+
+            // 🔹 Save changes
             context.SaveChanges();
 
-            var w = obj as Window;
-            w.Close();
-            var s = new StudentListWindow();
-            s.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            MessageBox.Show("Student successfully added!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // 🔹 Open student list window
+            var s = new StudentListWindow
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
             s.Show();
+
+            if (obj is Window w)
+                w.Close();
         }
+
+
 
 
 

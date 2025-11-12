@@ -82,6 +82,13 @@ namespace ApplicationWPF.ViewModel
             context.ClassAdvisers.Add(newAdviser);
             context.SaveChanges();
 
+            MessageBox.Show("Adviser successfully added!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            var x = new AdviserListWindow();
+            x.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            x.Show();
+
+
             var w = obj as Window;
             w.Close();
 

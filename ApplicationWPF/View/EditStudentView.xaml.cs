@@ -73,5 +73,7 @@ namespace ApplicationWPF.View
                 e.Handled = true;
             }
         }
+
+       
     }
 }

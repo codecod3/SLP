@@ -58,7 +58,6 @@
                                           SelectedItem="{Binding EnrollmentStatus, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBoxItem Content="Enrolled"/>
                                     <ComboBoxItem Content="Dropped"/>
-                                    <ComboBoxItem Content="Transferred"/>
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>
@@ -109,11 +108,9 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="Relationship Type:" Width="130" VerticalAlignment="Center"/>
                                 <ComboBox Width="300"
-                                          SelectedItem="{Binding SelectedRelationship.RelationshipType, UpdateSourceTrigger=PropertyChanged}">
-                                    <ComboBoxItem Content="Father"/>
-                                    <ComboBoxItem Content="Mother"/>
-                                    <ComboBoxItem Content="Guardian"/>
-                                    <ComboBoxItem Content="Sibling"/>
+                                          ItemsSource="{Binding RelationshipTypes}"
+                                          SelectedItem="{Binding SelectedRelationship.TypeOfRelationship, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>
@@ -163,7 +160,11 @@
 
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Section:" Width="130" VerticalAlignment="Center"/>
-                                <TextBox Text="{Binding SelectedAdvisory.SectionName, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                                <TextBox Text="{Binding SectionName, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="School Year:" Width="130" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding SchoolYear, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
