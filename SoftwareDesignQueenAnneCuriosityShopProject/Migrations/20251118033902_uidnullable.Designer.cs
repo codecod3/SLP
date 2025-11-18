@@ -11,8 +11,8 @@ using SoftwareDesignQueenAnneCuriosityShopProject;
 namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20251106122323_updatekey")]
-    partial class updatekey
+    [Migration("20251118033902_uidnullable")]
+    partial class uidnullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,8 +217,8 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                     b.Property<int?>("AdvisoryID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("EnrollmentStatus")
-                        .HasColumnType("bit");
+                    b.Property<int>("EnrollmentStatus")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -234,6 +234,9 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<string>("UID")
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("StudentID");
 

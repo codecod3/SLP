@@ -22,6 +22,11 @@ namespace ApplicationWPF.ViewModel
         private string _parentNameInput;
         private string _adviserNameInput;
         private RelationshipType _selectedRelationshipType; // flattened property
+        private EnrollmentStatus _selectedEnrollmentStatus;
+
+        public Array EnrollmentStats => Enum.GetValues(typeof(EnrollmentStatus));
+
+
 
         // Enum array for ComboBox
         public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
@@ -72,6 +77,23 @@ namespace ApplicationWPF.ViewModel
                 {
                     _selectedRelationship = value;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+
+        public EnrollmentStatus SelectedEnrollmentStatus
+        {
+            get => _selectedEnrollmentStatus;
+            set
+            {
+                if (_selectedEnrollmentStatus != value)
+                {
+                    _selectedEnrollmentStatus = value;
+                    OnPropertyChanged();
+
+                    if (SelectedStudent != null)
+                        SelectedStudent.EnrollmentStatus = value;
                 }
             }
         }

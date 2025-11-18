@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
 {
-    public partial class updatekey : Migration
+    public partial class uidnullable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -108,7 +108,8 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                     FirstName = table.Column<string>(type: "varchar(50)", nullable: false),
                     LastName = table.Column<string>(type: "varchar(50)", nullable: false),
                     LRN = table.Column<int>(type: "INTEGER", nullable: false),
-                    EnrollmentStatus = table.Column<bool>(type: "INTEGER", nullable: false),
+                    EnrollmentStatus = table.Column<int>(type: "INTEGER", nullable: false),
+                    UID = table.Column<string>(type: "varchar(100)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "varchar(15)", nullable: false),
                     AdvisoryID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -218,16 +219,50 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            // Indexes
-            migrationBuilder.CreateIndex(name: "IX_Advisory_ClassAdviserID", table: "Advisory", column: "ClassAdviserID");
-            migrationBuilder.CreateIndex(name: "IX_Attendance_StudentID", table: "Attendance", column: "StudentID");
-            migrationBuilder.CreateIndex(name: "IX_Contact_ParentID", table: "Contact", column: "ParentID");
-            migrationBuilder.CreateIndex(name: "IX_Delivered_ContactID", table: "Delivered", column: "ContactID");
-            migrationBuilder.CreateIndex(name: "IX_Delivered_NotificationID", table: "Delivered", column: "NotificationID");
-            migrationBuilder.CreateIndex(name: "IX_Notification_AttendanceID", table: "Notification", column: "AttendanceID");
-            migrationBuilder.CreateIndex(name: "IX_Relationship_ParentID", table: "Relationship", column: "ParentID");
-            migrationBuilder.CreateIndex(name: "IX_Relationship_StudentID", table: "Relationship", column: "StudentID");
-            migrationBuilder.CreateIndex(name: "IX_Student_AdvisoryID", table: "Student", column: "AdvisoryID");
+            migrationBuilder.CreateIndex(
+                name: "IX_Advisory_ClassAdviserID",
+                table: "Advisory",
+                column: "ClassAdviserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendance_StudentID",
+                table: "Attendance",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contact_ParentID",
+                table: "Contact",
+                column: "ParentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delivered_ContactID",
+                table: "Delivered",
+                column: "ContactID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delivered_NotificationID",
+                table: "Delivered",
+                column: "NotificationID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_AttendanceID",
+                table: "Notification",
+                column: "AttendanceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Relationship_ParentID",
+                table: "Relationship",
+                column: "ParentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Relationship_StudentID",
+                table: "Relationship",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_AdvisoryID",
+                table: "Student",
+                column: "AdvisoryID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

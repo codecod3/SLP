@@ -24,7 +24,10 @@ namespace ApplicationWPF.ViewModel
         private ClassAdviser _selectedAdviser;
         public event Action RequestClose;
         public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
+        public Array EnromentTypes => Enum.GetValues(typeof(EnrollmentStatus));
+
         public Relationship SelectedRelationship { get; set; } = new Relationship();
+        private EnrollmentStatus _selectedEnrollmentStatus;
 
         public ICommand AddStudentCommand { get; set; }
         private string _sectionName;
@@ -32,6 +35,17 @@ namespace ApplicationWPF.ViewModel
         private string _parentNameInput;
         private string _adviserNameInput;
         private string _schoolYear;
+
+
+        public EnrollmentStatus SelectedEnrollmentStatus
+        {
+            get => _selectedEnrollmentStatus;
+            set
+            {
+                _selectedEnrollmentStatus = value;
+                OnPropertyChanged(nameof(SelectedEnrollmentStatus));
+            }
+        }
 
         public string SchoolYear
         {
@@ -172,7 +186,7 @@ namespace ApplicationWPF.ViewModel
                 LastName = LastName,
                 LRN = LRN,
                 PhoneNumber = PhoneNumber,
-                EnrollmentStatus = true
+                EnrollmentStatus = SelectedEnrollmentStatus
             };
 
             // 🔹 Link Parent if selected

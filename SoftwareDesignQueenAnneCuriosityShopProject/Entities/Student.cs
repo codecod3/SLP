@@ -12,7 +12,8 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int LRN { get; set; }
-        public bool EnrollmentStatus { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
+        public string? UID { get; set; }
         public string PhoneNumber { get; set; }
         // Relationships
 
@@ -21,5 +22,14 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Entities
         public int? AdvisoryID { get; set; }
         public Advisory AdvisoryLink { get; set; }
 
+    }
+
+
+
+    public enum EnrollmentStatus
+    {
+        Enrolled,
+        NotEnrolled,
+        Dropped
     }
 }

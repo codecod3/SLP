@@ -49,10 +49,9 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Enrollment Status:" Width="130" VerticalAlignment="Center"/>
                                 <ComboBox Width="300"
-                                          SelectedItem="{Binding SelectedStudent.EnrollmentStatus, UpdateSourceTrigger=PropertyChanged}">
-                                    <ComboBoxItem Content="Enrolled"/>
-                                    <ComboBoxItem Content="Dropped"/>
-                                    <ComboBoxItem Content="Transferred"/>
+                                          ItemsSource="{Binding EnrollmentStats}"
+                                          SelectedItem="{Binding SelectedEnrollmentStatus, UpdateSourceTrigger=PropertyChanged}">
+      
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>

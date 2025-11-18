@@ -18,13 +18,29 @@ namespace ApplicationWPF.ViewModel
         public ICommand OpenStudentListCommand { get; set; }
         public ICommand OpenAdviserListCommand { get; set; }
         public ICommand OpenParentListCommand { get; set; }
+        public ICommand OpenSectionListCommand { get; set; }
+
+
+
         public HomePageViewModel()
         {
 
             OpenStudentListCommand = new RelayCommand(OpenStudentList, (s) => true);
             OpenAdviserListCommand = new RelayCommand(OpenAdviserList, (s)=> true);
             OpenParentListCommand = new RelayCommand(OpenParentList, (s)=> true);
+            OpenSectionListCommand = new RelayCommand(OpenSectionList, (s) => true);
 
+        }
+
+        private void OpenSectionList(object obj)
+        {
+
+            var sectionView = new SectionView();
+            sectionView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            sectionView.Show();
+
+            var w = obj as Window;
+            w.Close();
         }
 
 

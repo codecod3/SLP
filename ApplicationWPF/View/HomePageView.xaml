@@ -19,7 +19,7 @@
 
         <!-- ======= TAB NAVIGATION BAR ======= -->
         <DockPanel Grid.Row="0" LastChildFill="True" Background="#F2F2F2" >
-            <UniformGrid Rows="1" Columns="3">
+            <UniformGrid Rows="1" Columns="4">
                 <Button Content="STUDENT LIST"
                         Command="{Binding OpenStudentListCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
@@ -48,6 +48,15 @@
                         Background="Transparent"
                         BorderBrush="Transparent"
                         Cursor="Hand"/>
+                <Button Content="SECTION LIST"
+                        Command="{Binding OpenAdviserListCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Cursor="Hand"/>
+                
             </UniformGrid>
         </DockPanel>
 

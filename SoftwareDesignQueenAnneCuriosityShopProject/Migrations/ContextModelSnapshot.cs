@@ -214,8 +214,8 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                     b.Property<int?>("AdvisoryID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("EnrollmentStatus")
-                        .HasColumnType("bit");
+                    b.Property<int>("EnrollmentStatus")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -231,6 +231,9 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<string>("UID")
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("StudentID");
 

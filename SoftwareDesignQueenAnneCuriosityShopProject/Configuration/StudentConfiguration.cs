@@ -24,10 +24,12 @@ namespace SoftwareDesignQueenAnneCuriosityShopProject.Configuration
 
             builder.Property(s => s.LRN).HasColumnType("int");
 
-            builder.Property(s => s.EnrollmentStatus).HasColumnType("bit");
+            builder.Property(s => s.EnrollmentStatus).HasColumnType("varchar(50)");
 
             builder.Property(s => s.PhoneNumber).HasColumnType("varchar(15)");
-                
+
+            builder.Property(s => s.UID).HasColumnType("varchar(100)");
+
 
             //Relationship
             builder.HasMany(s => s.Attendances)
