@@ -23,17 +23,29 @@ namespace ApplicationWPF.ViewModel
         public ICommand AddAdviserCommand { get; set; }
         public ICommand DeleteAdviserCommand { get; set; }
         public ICommand DoubleClickCommand { get; set; }
-
+        public ICommand BackCommand { get; set; }
 
         public AdviserListViewModel()
         {
             LoadAdvisers();
             AddAdviserCommand = new RelayCommand(AddAdviser, (s) => true);
             DeleteAdviserCommand = new RelayCommand(DeleteAdviser, (s) => true);
+            BackCommand = new RelayCommand(Back, (s) => true);
             DoubleClickCommand = new RelayCommand(OnDoubleClick, (s) => true);
 
         }
 
+
+        private void Back(object obj)
+        {
+
+            var window = new HomePageView();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+            var w = obj as Window;
+            w.Close();
+
+        }
 
         private void OnDoubleClick(object obj)
         {

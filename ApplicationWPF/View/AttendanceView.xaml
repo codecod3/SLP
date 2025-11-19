@@ -1,0 +1,31 @@
+﻿<Window x:Class="ApplicationWPF.View.AttendanceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ApplicationWPF.View"
+        mc:Ignorable="d"
+        Title="Attendance" Height="450" Width="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Student Info -->
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
+            <TextBlock Text="Student Attendance" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding SelectedStudentFullName}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Attendance List -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Attendances}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Present" Binding="{Binding isPresent}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

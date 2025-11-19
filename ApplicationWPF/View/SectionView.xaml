@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ApplicationWPF.View"
         mc:Ignorable="d"
+        Name="sectionwindow"
         Title="Sections" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
 
@@ -16,25 +16,50 @@
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
+        <Button Content="&lt;"
+                Width="50" Height="35"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="0,0,0,0"
+                CommandParameter="{x:Reference Name=sectionwindow}"
+                Command="{Binding BackCommand}"/>
+        
         <TextBlock Text="Sections" FontSize="22" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,0,0,10"/>
+       
 
         <!-- DATA GRID -->
-        <DataGrid Grid.Row="1" 
+        <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Sections}" 
-                  SelectedItem="{Binding SelectedSection}" 
+                  SelectedItem="{Binding SelectedAdvisory}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False"
-                  Margin="0,0,0,10">
+                  Margin="0,0,0,10"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Section ID" Binding="{Binding SectionID}" IsReadOnly="True" Width="100"/>
-                <DataGridTextColumn Header="Section Name" Binding="{Binding Name}" Width="*"/>
+                <!-- Adviser Full Name -->
+                <DataGridTemplateColumn Header="Adviser" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="ClassAdviserLink.FirstName"/>
+                                        <Binding Path="ClassAdviserLink.LastName"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Section Name -->
+                <DataGridTextColumn Header="Section Name" Binding="{Binding SectionName}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- BUTTONS -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Add Section" Width="100" Height="30" Margin="5" Command="{Binding AddSectionCommand}"/>
+            <Button Content="Add Section" Width="100" Height="30" Margin="5"  CommandParameter="{x:Reference Name=sectionwindow}" Command="{Binding AddSectionCommand}"/>
             <Button Content="Edit Section" Width="100" Height="30" Margin="5" Command="{Binding EditSectionCommand}"/>
             <Button Content="Delete Section" Width="100" Height="30" Margin="5" Command="{Binding DeleteSectionCommand}"/>
         </StackPanel>

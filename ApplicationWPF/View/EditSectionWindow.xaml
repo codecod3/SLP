@@ -1,0 +1,107 @@
+﻿<Window x:Class="ApplicationWPF.View.EditSectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Edit Section"
+        Height="360" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFFDFDFD">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Section fields -->
+            <RowDefinition Height="*"/>
+            <!-- Spacer / extra -->
+            <RowDefinition Height="Auto"/>
+            <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+                   Text="Edit Section"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0,0,0,12"/>
+
+        <!-- Form -->
+        <Border Grid.Row="1" BorderBrush="#DDD" BorderThickness="1" CornerRadius="6" Padding="12" Background="White">
+            <StackPanel Orientation="Vertical" >
+
+                <!-- Section Name -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Text="Section Name:" Width="130" VerticalAlignment="Center"/>
+                    <TextBox Width="350"
+                             Text="{Binding SelectedSection.SectionName, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <!-- School Year -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Text="School Year:" Width="130" VerticalAlignment="Center"/>
+                    <TextBox Width="350"
+                             Text="{Binding SelectedSection.SchoolYear, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <!-- Adviser autofilter -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock Text="Class Adviser:" Width="130" VerticalAlignment="Center"/>
+                    <Grid>
+                        <TextBox x:Name="AdviserSearchBox"
+                                 Width="350"
+                                 Text="{Binding AdviserNameInput, UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalAlignment="Center"
+                                 Padding="4"
+                                 />
+
+                        <Popup x:Name="AdviserSuggestionsPopup"
+                               PlacementTarget="{Binding ElementName=AdviserSearchBox}"
+                               Placement="Bottom"
+                               StaysOpen="False"
+                               AllowsTransparency="True"
+                               IsOpen="False">
+                            <Border Background="White" BorderBrush="#AAA" BorderThickness="1" CornerRadius="4">
+                                <ListBox x:Name="AdviserSuggestionsList"
+                                         ItemsSource="{Binding FilteredAdvisers}"
+                                         Width="350" MaxHeight="180"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         MouseLeftButtonUp="AdviserSuggestionsList_MouseLeftButtonUp">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="6">
+                                                <TextBlock Text="{Binding FirstName}" Margin="0,0,6,0"/>
+                                                <TextBlock Text="{Binding LastName}" FontWeight="Bold"/>
+                                                <TextBlock Text=" — " Foreground="#888" Margin="6,0"/>
+                                                <TextBlock Text="{Binding ClassAdviserID}" Foreground="#888"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Current selected adviser display (read-only) -->
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <TextBlock Text="Selected Adviser:" Width="130" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding SelectedAdviserDisplay}" VerticalAlignment="Center" />
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Save" Width="110" Height="36" Margin="6,0"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Button Content="Cancel" Width="110" Height="36" Margin="6,0"
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </StackPanel>
+    </Grid>
+</Window>

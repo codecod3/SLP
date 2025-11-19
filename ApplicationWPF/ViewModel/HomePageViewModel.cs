@@ -19,6 +19,7 @@ namespace ApplicationWPF.ViewModel
         public ICommand OpenAdviserListCommand { get; set; }
         public ICommand OpenParentListCommand { get; set; }
         public ICommand OpenSectionListCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
 
 
@@ -29,6 +30,21 @@ namespace ApplicationWPF.ViewModel
             OpenAdviserListCommand = new RelayCommand(OpenAdviserList, (s)=> true);
             OpenParentListCommand = new RelayCommand(OpenParentList, (s)=> true);
             OpenSectionListCommand = new RelayCommand(OpenSectionList, (s) => true);
+            LogOutCommand = new RelayCommand(LogOut, (s) => true);
+
+        }
+
+        private void LogOut(object obj)
+        {
+
+            var window = new MainWindow();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+            var w = obj as Window;
+            w.Close();
+
+
 
         }
 

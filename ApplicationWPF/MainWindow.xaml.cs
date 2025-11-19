@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ApplicationWPF;
 using ApplicationWPF.View;
+using ApplicationWPF.ViewModel;
 
 namespace ApplicationWPF
 {
@@ -20,9 +21,13 @@ namespace ApplicationWPF
     {
         public MainWindow()
         {
-            HomePageView v = new HomePageView();
-            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            v.Show();
+            InitializeComponent();
+
+            var vm = new LogInViewModel();
+            this.DataContext = vm;
+           
+
+            
         }
     }
 }

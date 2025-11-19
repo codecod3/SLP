@@ -55,8 +55,9 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Enrollment Status:" Width="130" VerticalAlignment="Center"/>
                                 <ComboBox Width="300"
-                                          ItemsSource="{Binding EnromentTypes}"
-                                          SelectedItem="{Binding SelectedEnrollmentStatus, UpdateSourceTrigger=PropertyChanged}">
+                                          SelectedItem="{Binding EnrollmentStatus, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBoxItem Content="Enrolled"/>
+                                    <ComboBoxItem Content="Dropped"/>
                                 </ComboBox>
                             </StackPanel>
                         </StackPanel>
@@ -157,15 +158,19 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <TextBlock Text="Section:" Width="130" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding SectionName, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
                             </StackPanel>
+
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="School Year:" Width="130" VerticalAlignment="Center"/>
                                 <TextBox Text="{Binding SchoolYear, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
                             </StackPanel>
+                            
                         </StackPanel>
+                        
+                        
                     </GroupBox>
                 </StackPanel>
 

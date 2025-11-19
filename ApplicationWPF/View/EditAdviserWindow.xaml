@@ -54,6 +54,8 @@
                     FontWeight="SemiBold"/>
             <Button Content="Cancel"
                     Width="100" Height="35"
+                    CommandParameter="{x:Reference Name=editadviserwindow}"
+                    Command="{Binding CancelCommand}"
                     FontWeight="SemiBold"/>
         </StackPanel>
     </Grid>

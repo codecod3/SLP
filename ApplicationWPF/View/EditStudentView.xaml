@@ -163,6 +163,8 @@
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                     <Button Content="Save" Width="100" Height="35" Background="#FFCCE5FF" FontWeight="SemiBold" Margin="10,0"
                             Command="{Binding SaveCommand}"/>
+                    <Button Content="Attendances" Width="100" Height="35" Background="#FFCCE5FF" FontWeight="SemiBold" Margin="10,0"
+                            Command="{Binding ViewAttendanceCommand}"/>
                     <Button Content="Cancel" Width="100" Height="35" Background="#FFFFCCCC" FontWeight="SemiBold" Margin="10,0"
                             Command="{Binding CancelCommand}"/>
                 </StackPanel>

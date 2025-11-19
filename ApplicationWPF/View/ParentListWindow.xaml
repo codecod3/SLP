@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         Title="Brgy. Vicente Hizon Sr. Elementary School Database"
         Height="700" Width="770"
+        Name="ListParentWindow"
         WindowStartupLocation="CenterScreen"
         Background="#FFFDFDFD">
 
@@ -20,6 +21,13 @@
         </Grid.RowDefinitions>
 
         <!-- ===== HEADER ===== -->
+        <Button Content="&lt;"
+                Width="50" Height="35"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="0,0,0,0"
+                CommandParameter="{x:Reference Name=ListParentWindow}"
+                Command="{Binding BackCommand}"/>
+        
         <TextBlock Text="Parent List"
                    FontSize="22"
                    FontWeight="Bold"

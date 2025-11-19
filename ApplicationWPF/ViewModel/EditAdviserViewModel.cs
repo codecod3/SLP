@@ -8,6 +8,7 @@ using SoftwareDesignQueenAnneCuriosityShopProject.Entities;
 using SoftwareDesignQueenAnneCuriosityShopProject;
 using System.Windows.Input;
 using System.Windows;
+using ApplicationWPF.View;
 
 namespace ApplicationWPF.ViewModel
 {
@@ -18,6 +19,7 @@ namespace ApplicationWPF.ViewModel
         private string _lastName;
         private string _phoneNumber;
         public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         public string FirstName
         {
@@ -66,9 +68,22 @@ namespace ApplicationWPF.ViewModel
         {
             SelectedAdviser = adviser;
             SaveCommand = new RelayCommand(Save, (s) => true);
+            CancelCommand = new RelayCommand(Cancel, (s) => true);
             FirstName = adviser.FirstName;
             LastName = adviser.LastName;
             PhoneNumber = adviser.PhoneNumber;
+
+        }
+
+        private void Cancel(object obj)
+        {
+
+            var window = new AdviserListWindow();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+            var w = obj as Window;
+            w.Close();
 
         }
 
@@ -87,6 +102,11 @@ namespace ApplicationWPF.ViewModel
 
             context.SaveChanges();
             MessageBox.Show("Adviser successfully updated!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            var window = new AdviserListWindow();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
             var w = obj as Window;
             w.Close();
 

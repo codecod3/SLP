@@ -157,6 +157,7 @@ namespace ApplicationWPF.ViewModel
         // COMMANDS
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+        public ICommand ViewAttendanceCommand { get; set; }
         public event Action RequestClose;
 
         // CONSTRUCTOR
@@ -168,9 +169,19 @@ namespace ApplicationWPF.ViewModel
             LoadAdvisers();
             LoadExistingLinks();
 
+            ViewAttendanceCommand = new RelayCommand(AttendanceOpen, (s) => true);
             SaveCommand = new RelayCommand(SaveChanges, _ => true);
             CancelCommand = new RelayCommand(Cancel, _ => true);
         }
+
+        private void AttendanceOpen(object obj)
+        {
+            var window = new AttendanceView(SelectedStudent);
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+        }
+
 
         // LOAD DATA
         private void LoadParents()

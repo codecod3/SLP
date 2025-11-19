@@ -24,6 +24,7 @@ namespace ApplicationWPF.ViewModel
         public ICommand AddStudentCommand { get; set; }
         public ICommand EditStudentCommand { get; set; }
         public ICommand DeleteStudentCommand { get; set; }
+        public ICommand BackCommand { get; set; }
         public ICommand DoubleClickTrigger { get; set; }
 
         public StudentListViewModel()
@@ -32,6 +33,22 @@ namespace ApplicationWPF.ViewModel
             DoubleClickTrigger = new RelayCommand(OnDoubleClick, (s) => true);
             AddStudentCommand = new RelayCommand(OnAddStudent, (s) => true);
             DeleteStudentCommand = new RelayCommand(DeleteCommand, (s) => true);
+            BackCommand = new RelayCommand(Back, (s) => true);
+        }
+
+
+        private void Back(object obj)
+        {
+
+            var window = new HomePageView();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+            var w = obj as Window;
+            w.Close();
+
+
+
         }
 
         private void DeleteCommand(object obj)

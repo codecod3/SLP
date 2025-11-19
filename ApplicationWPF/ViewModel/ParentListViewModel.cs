@@ -22,6 +22,7 @@ namespace ApplicationWPF.ViewModel
         public ICommand AddParentCommand { get; set; }
         public ICommand DeletedParentCommand { get; set; }
         public ICommand DoubleClickTrigger { get; set; }
+        public ICommand BackCommand { get; set; }
 
         public ParentListViewModel()
         {
@@ -29,6 +30,25 @@ namespace ApplicationWPF.ViewModel
             AddParentCommand = new RelayCommand(AddParent, (s) => true);
             DeletedParentCommand = new RelayCommand(DeletedParent, (s) => true);
             DoubleClickTrigger = new RelayCommand(OnDoubleClickTrigger, (s) => true);
+            BackCommand = new RelayCommand(Back, (s) => true);
+
+        }
+
+
+        private void Back(object obj)
+        {
+
+
+            var window = new HomePageView();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+            var w = obj as Window;
+            w.Close();
+
+
+
+
 
         }
 

@@ -8,6 +8,8 @@ using SoftwareDesignQueenAnneCuriosityShopProject.Entities;
 using SoftwareDesignQueenAnneCuriosityShopProject;
 using System.Windows.Input;
 using System.Windows;
+using ApplicationWPF.View;
+using System.Net.WebSockets;
 
 namespace ApplicationWPF.ViewModel
 {
@@ -20,6 +22,7 @@ namespace ApplicationWPF.ViewModel
         private string _phoneNumber;
         private string _network;
         public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         public Parent SelectedParent
         {
@@ -99,6 +102,20 @@ namespace ApplicationWPF.ViewModel
             }
 
             SaveCommand = new RelayCommand(Save, (s) => true);
+            CancelCommand = new RelayCommand(Cancel, (s) => true);
+
+        }
+
+
+        private void Cancel(object obj)
+        {
+
+            var window = new ParentListWindow();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
+            var w = obj as Window;
+            w.Close();
 
         }
 
@@ -118,6 +135,11 @@ namespace ApplicationWPF.ViewModel
 
             context.SaveChanges();
             MessageBox.Show("Parent successfully updated!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            var window = new ParentListWindow();
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Show();
+
             var w = obj as Window;
             w.Close();
 

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ApplicationWPF.Commands;
@@ -14,28 +12,28 @@ using SoftwareDesignQueenAnneCuriosityShopProject.Entities;
 
 namespace ApplicationWPF.ViewModel
 {
-    public class AddStudentViewModel: NotifyPropertyChanged 
+    public class AddStudentViewModel : NotifyPropertyChanged
     {
-       private string _firstName;
-       private string _lastName;
-       private int _lrn;
-       private string _phoneNumber;
+        // Fields
+        private string _firstName;
+        private string _lastName;
+        private int _lrn;
+        private string _phoneNumber;
         private Parent _selectedParent;
         private ClassAdviser _selectedAdviser;
-        public event Action RequestClose;
-        public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
-        public Array EnromentTypes => Enum.GetValues(typeof(EnrollmentStatus));
-
-        public Relationship SelectedRelationship { get; set; } = new Relationship();
-        private EnrollmentStatus _selectedEnrollmentStatus;
-
-        public ICommand AddStudentCommand { get; set; }
         private string _sectionName;
-
         private string _parentNameInput;
         private string _adviserNameInput;
-        private string _schoolYear;
+        private EnrollmentStatus _selectedEnrollmentStatus;
 
+        // Events
+        public event Action RequestClose;
+
+        // Properties
+        public Array RelationshipTypes => Enum.GetValues(typeof(RelationshipType));
+        public Array EnrollmentTypes => Enum.GetValues(typeof(EnrollmentStatus));
+
+        public Relationship SelectedRelationship { get; set; } = new Relationship();
 
         public EnrollmentStatus SelectedEnrollmentStatus
         {
@@ -47,20 +45,9 @@ namespace ApplicationWPF.ViewModel
             }
         }
 
-        public string SchoolYear
-        {
-            get=>_schoolYear;
-            set
-            {
-                _schoolYear = value;
-                OnPropertyChanged(nameof(SchoolYear));
-            }
-        }
-
-
         public string SectionName
         {
-            get=>_sectionName;
+            get => _sectionName;
             set
             {
                 _sectionName = value;
@@ -71,7 +58,9 @@ namespace ApplicationWPF.ViewModel
         public string FirstName
         {
             get => _firstName;
-            set { _firstName = value;
+            set
+            {
+                _firstName = value;
                 OnPropertyChanged();
             }
         }
@@ -106,7 +95,6 @@ namespace ApplicationWPF.ViewModel
             }
         }
 
-
         public Parent SelectedParent
         {
             get => _selectedParent;
@@ -137,7 +125,6 @@ namespace ApplicationWPF.ViewModel
             }
         }
 
-
         public string ParentNameInput
         {
             get => _parentNameInput;
@@ -166,20 +153,28 @@ namespace ApplicationWPF.ViewModel
             }
         }
 
+        // Collections for autocomplete
+        public ObservableCollection<Parent> AllParents { get; } = new();
+        public ObservableCollection<Parent> FilteredParents { get; } = new();
+        public ObservableCollection<ClassAdviser> AllAdvisers { get; } = new();
+        public ObservableCollection<ClassAdviser> FilteredAdvisers { get; } = new();
 
+        // Commands
+        public ICommand AddStudentCommand { get; set; }
+
+        // Constructor
         public AddStudentViewModel()
         {
             AddStudentCommand = new RelayCommand(AddStudent, (s) => true);
-            LoadAdvisers();
             LoadParents();
+            LoadAdvisers();
         }
 
-
+        // Add Student Method
         private void AddStudent(object obj)
         {
             using var context = new Context();
 
-            // Create new student
             var newStudent = new Student
             {
                 FirstName = FirstName,
@@ -189,10 +184,9 @@ namespace ApplicationWPF.ViewModel
                 EnrollmentStatus = SelectedEnrollmentStatus
             };
 
-            // 🔹 Link Parent if selected
+            // Link Parent
             if (SelectedParent != null)
             {
-                // Attach parent to context if not already tracked
                 if (!context.Parents.Local.Any(p => p.ParentID == SelectedParent.ParentID))
                     context.Parents.Attach(SelectedParent);
 
@@ -205,35 +199,32 @@ namespace ApplicationWPF.ViewModel
                 context.Relationships.Add(relation);
             }
 
-            // 🔹 Link Adviser and Advisory if selected
+            // Link Adviser and Advisory
             if (SelectedAdviser != null)
             {
-                // Attach adviser to context if not already tracked
                 if (!context.ClassAdvisers.Local.Any(a => a.ClassAdviserID == SelectedAdviser.ClassAdviserID))
                     context.ClassAdvisers.Attach(SelectedAdviser);
 
-                // Try to find an existing advisory with same adviser and section
+                // Force client evaluation for case-insensitive section comparison
                 var existingAdvisory = context.Advisories
                     .Include(a => a.Students)
+                    .AsEnumerable()
                     .FirstOrDefault(a =>
                         a.ClassAdviserID == SelectedAdviser.ClassAdviserID &&
-                        a.SectionName == SectionName && a.SchoolYear == SchoolYear);
+                        string.Equals(a.SectionName, SectionName, StringComparison.OrdinalIgnoreCase));
 
                 if (existingAdvisory != null)
                 {
-                    // Advisory exists -> just add the student
                     existingAdvisory.Students.Add(newStudent);
                     newStudent.AdvisoryLink = existingAdvisory;
                 }
                 else
                 {
-                    // Create a new advisory
                     var newAdvisory = new Advisory
                     {
-                        Name = $"{SectionName} - {SchoolYear}",
+                        Name = SectionName,
                         SectionName = SectionName,
-                        SchoolYear = SchoolYear,
-                        ClassAdviserLink = SelectedAdviser, // attached entity
+                        ClassAdviserLink = SelectedAdviser,
                         Students = new List<Student> { newStudent }
                     };
 
@@ -242,36 +233,24 @@ namespace ApplicationWPF.ViewModel
                 }
             }
 
-            // 🔹 Add student
+            // Add student
             context.Students.Add(newStudent);
-
-            // 🔹 Save changes
             context.SaveChanges();
 
             MessageBox.Show("Student successfully added!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            // 🔹 Open student list window
-            var s = new StudentListWindow
+            // Open student list window
+            var studentListWindow = new StudentListWindow
             {
                 WindowStartupLocation = WindowStartupLocation.CenterScreen
             };
-            s.Show();
+            studentListWindow.Show();
 
             if (obj is Window w)
                 w.Close();
         }
 
-
-
-
-
-        public ObservableCollection<Parent> AllParents { get; } = new();
-        public ObservableCollection<Parent> FilteredParents { get; } = new();
-
-        public ObservableCollection<ClassAdviser> AllAdvisers { get; } = new();
-        public ObservableCollection<ClassAdviser> FilteredAdvisers { get; } = new();
-
-
+        // Filtering Parents
         public void UpdateFilteredParents()
         {
             FilteredParents.Clear();
@@ -286,6 +265,7 @@ namespace ApplicationWPF.ViewModel
                 FilteredParents.Add(parent);
         }
 
+        // Filtering Advisers
         public void UpdateFilteredAdvisers()
         {
             FilteredAdvisers.Clear();
@@ -300,25 +280,22 @@ namespace ApplicationWPF.ViewModel
                 FilteredAdvisers.Add(adviser);
         }
 
-
+        // Load Parents
         private void LoadParents()
         {
             using var context = new Context();
-            var parentsFromDb = context.Parents.ToList();
             AllParents.Clear();
-            foreach (var parent in parentsFromDb)
+            foreach (var parent in context.Parents.ToList())
                 AllParents.Add(parent);
         }
 
+        // Load Advisers
         private void LoadAdvisers()
         {
             using var context = new Context();
-            var advisersFromDb = context.ClassAdvisers.ToList();
             AllAdvisers.Clear();
-            foreach (var adviser in advisersFromDb)
+            foreach (var adviser in context.ClassAdvisers.ToList())
                 AllAdvisers.Add(adviser);
         }
-
-
     }
 }
