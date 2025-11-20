@@ -19,6 +19,9 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+
+                <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
                 <!-- HEADER -->
                 <TextBlock Text="Add Student Information"
                            FontSize="22"

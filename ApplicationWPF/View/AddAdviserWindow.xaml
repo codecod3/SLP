@@ -16,6 +16,8 @@
     <Border Padding="40" BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="40">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="410" Height="355" >
 
+            
+
             <!-- Header -->
             <TextBlock Text="Add New Adviser"
                        FontSize="28"
@@ -52,12 +54,14 @@
                 <Button Content="Save"
                         Width="140" Height="40"
                         FontSize="16"
+                        Background="#FFCCE5FF"
                         CommandParameter="{x:Reference Name=addadviserwindow}"
                         Command="{Binding SaveCommand}"/>
 
                 <Button Content="Cancel"
                         Width="140" Height="40"
                         FontSize="16"
+                        Background="#FFFFCCCC"
                         Command="{Binding CancelCommand}"/>
             </StackPanel>
         </StackPanel>

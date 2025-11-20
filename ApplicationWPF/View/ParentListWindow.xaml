@@ -20,11 +20,16 @@
             <!-- Buttons + Footer -->
         </Grid.RowDefinitions>
 
+
+        <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
+
         <!-- ===== HEADER ===== -->
         <Button Content="&lt;"
                 Width="50" Height="35"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Margin="0,0,0,0"
+                Background="Transparent"
                 CommandParameter="{x:Reference Name=ListParentWindow}"
                 Command="{Binding BackCommand}"/>
         

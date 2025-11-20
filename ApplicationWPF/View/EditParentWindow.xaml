@@ -15,6 +15,11 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+
+
+            <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
+
             <!-- Header -->
             <TextBlock Text="Edit Parent"
                    FontSize="26"
@@ -23,6 +28,9 @@
                    HorizontalAlignment="Center"
                    Margin="0,0,0,20"/>
 
+            
+            
+         
             <!-- Input Fields -->
             <StackPanel Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="350">
                 <TextBlock Text="First Name:" FontWeight="SemiBold" FontSize="14"/>

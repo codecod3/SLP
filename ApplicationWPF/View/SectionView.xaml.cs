@@ -27,5 +27,7 @@ namespace ApplicationWPF.View
                 parentWindow?.Close();
             }
         }
+
+       
     }
 }

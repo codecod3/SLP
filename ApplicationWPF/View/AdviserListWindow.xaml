@@ -22,10 +22,15 @@
 
         <!-- ===== HEADER ===== -->
 
+        <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
+
+
         <Button Content="&lt;"
                 Width="50" Height="35"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Margin="0,0,0,0"
+                Background="Transparent"
                 CommandParameter="{x:Reference Name=ListAdviserWindow}"
                 Command="{Binding BackCommand}"/>
 

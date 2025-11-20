@@ -19,6 +19,9 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
+
+            <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
             <TextBlock Text="Add Parent"
                        FontSize="26"
                        FontWeight="Bold"

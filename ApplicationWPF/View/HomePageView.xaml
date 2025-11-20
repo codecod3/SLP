@@ -19,14 +19,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Profile & Logout (Top-Right) -->
+        <StackPanel Background="#C54B8C"/>
+
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0" >
             <!-- Logout Button -->
             <Button Content="LogOut"
             Width="60" Height="25"
             FontSize="12"
             Background="Transparent"
-            Foreground="Black"
+            Foreground="White"
             FontWeight="SemiBold"
             BorderBrush="Transparent"
             Command="{Binding LogOutCommand}"
@@ -53,7 +55,7 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         FontSize="16"
                         FontWeight="SemiBold"
-                        Background="Transparent"
+                        Background="#FFD8F0"
                         BorderBrush="#CCCCCC"
                         BorderThickness="0,0,1,0"
                         Cursor="Hand"/>
@@ -63,7 +65,7 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         FontSize="16"
                         FontWeight="SemiBold"
-                        Background="Transparent"
+                        Background="#FFD8F0"
                         BorderBrush="#CCCCCC"
                         BorderThickness="0,0,1,0"
                         Cursor="Hand"/>
@@ -73,7 +75,7 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         FontSize="16"
                         FontWeight="SemiBold"
-                        Background="Transparent"
+                        Background="#FFD8F0"
                         BorderBrush="Transparent"
                         Cursor="Hand"/>
                 <Button Content="SECTION LIST"
@@ -81,7 +83,7 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         FontSize="16"
                         FontWeight="SemiBold"
-                        Background="Transparent"
+                        Background="#FFD8F0"
                         BorderBrush="Transparent"
                         Cursor="Hand"/>
                 
@@ -115,11 +117,9 @@
                         Margin="0,30,0,0"
                         BorderBrush="#CCC"
                         BorderThickness="1">
-                    <TextBlock Text="(Picture Placeholder)"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="#888"
-                               FontStyle="Italic"/>
+                    <Image Source="C:\Users\Jam\Desktop\SLP - Copy\Project\ApplicationWPF\Image\Screenshot 2025-11-20 095821.png" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" Height="100" Width="300"/>
+
                 </Border>
             </StackPanel>
         </Border>

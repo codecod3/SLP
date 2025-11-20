@@ -13,9 +13,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+       
         <!-- Student Info -->
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
+        <StackPanel Background="#C54B8C" Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
             <TextBlock Text="Student Attendance" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
             <TextBlock Text="{Binding SelectedStudentFullName}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center"/>
         </StackPanel>

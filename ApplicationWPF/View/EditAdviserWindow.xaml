@@ -17,6 +17,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
+
         <!-- HEADER -->
         <TextBlock Text="Edit Adviser"
                    FontSize="26"
@@ -51,11 +54,14 @@
                     Width="100" Height="35"
                     CommandParameter="{x:Reference Name=editadviserwindow}"
                     Command="{Binding SaveCommand}"
-                    FontWeight="SemiBold"/>
+                    FontWeight="SemiBold"
+                     Background="#FFCCE5FF"/>
+
             <Button Content="Cancel"
                     Width="100" Height="35"
                     CommandParameter="{x:Reference Name=editadviserwindow}"
                     Command="{Binding CancelCommand}"
+                     Background="#FFFFCCCC"
                     FontWeight="SemiBold"/>
         </StackPanel>
     </Grid>

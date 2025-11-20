@@ -13,6 +13,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+
+        <StackPanel Background="#C54B8C" Grid.Row="0"/>
+
         <!-- Header -->
         <TextBlock Grid.Row="0"
                    Text="Add Section"
@@ -86,9 +89,13 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
             <Button Content="Add" Width="110" Height="36" Margin="6,0"
                     Command="{Binding SaveCommand}"
+                     Background="#4CAF50" Foreground="White"
+                    BorderBrush="#4CAF50"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Button Content="Cancel" Width="110" Height="36" Margin="6,0"
                     Command="{Binding CancelCommand}"
+                     Background="#E74C3C" Foreground="White"
+                     BorderBrush="#E74C3C"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
     </Grid>
